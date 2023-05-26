@@ -42,29 +42,33 @@ func Test_PropertyLengthTracker(t *testing.T) {
 		tests := []test{
 			{
 				values:       []float32{2, 2, 3, 100, 100, 500, 7},
-				name:         "mixed values",
+				name:         "mixed_values",
 				floatCompare: true,
-			}, {
+			},
+			{
 				values: []float32{
 					1000, 1200, 1000, 1300, 800, 2000, 2050,
 					2070, 900,
 				},
-				name:         "high values",
+				name:         "high_values",
 				floatCompare: true,
-			}, {
+			},
+			{
 				values: []float32{
 					60000, 50000, 65000,
 				},
-				name:         "very high values",
+				name:         "very_high_values",
 				floatCompare: true,
-			}, {
+			},
+			{
 				values: []float32{
 					1, 2, 4, 3, 4, 2, 1, 5, 6, 7, 8, 2, 7, 2, 3, 5,
 					6, 3, 5, 9, 3, 4, 8,
 				},
-				name:         "very low values",
+				name:         "very_low_values",
 				floatCompare: true,
-			}, {
+			},
+			{
 				values:       []float32{0, 0},
 				name:         "zeros",
 				floatCompare: false,
@@ -73,7 +77,7 @@ func Test_PropertyLengthTracker(t *testing.T) {
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
-				tracker, err := NewJsonPropertyLengthTracker(trackerPath)
+				tracker, err := NewJsonPropertyLengthTracker(trackerPath + test.name)
 				require.Nil(t, err)
 
 				actualMean := float32(0)
