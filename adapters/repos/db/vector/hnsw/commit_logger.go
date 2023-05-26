@@ -396,7 +396,6 @@ func (l *hnswCommitLogger) Shutdown(ctx context.Context) error {
 	if err := l.unregisterCondenseLogs(ctx); err != nil {
 		return errors.Wrap(err, "failed to unregister commitlog condense from maintenance cycle")
 	}
-
 	return nil
 }
 
