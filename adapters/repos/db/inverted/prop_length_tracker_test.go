@@ -91,6 +91,7 @@ func Test_PropertyLengthTracker(t *testing.T) {
 				} else {
 					assert.Equal(t, actualMean, res)
 				}
+				require.Nil(t, tracker.Close())
 			})
 		}
 	})
@@ -123,6 +124,8 @@ func Test_PropertyLengthTracker(t *testing.T) {
 		assert.Equal(t, 3, sum)
 		assert.Equal(t, 1, count)
 		assert.InEpsilon(t, 3, mean, 0.1)
+
+		require.Nil(t, tracker.Close())
 	})
 
 	t.Run("multiple properties (can all fit on one page)", func(t *testing.T) {
@@ -171,6 +174,8 @@ func Test_PropertyLengthTracker(t *testing.T) {
 
 			assert.InEpsilon(t, actualMean, res, 0.1)
 		}
+
+		require.Nil(t, tracker.Close())
 	})
 
 	t.Run("with more properties that can fit on one page", func(t *testing.T) {
@@ -179,6 +184,8 @@ func Test_PropertyLengthTracker(t *testing.T) {
 		require.Nil(t, err)
 
 		create20PropsAndVerify(t, tracker)
+
+		require.Nil(t, tracker.Close())
 	})
 }
 
@@ -465,6 +472,7 @@ func TestOldPropertyLengthTracker(t *testing.T) {
 				} else {
 					assert.Equal(t, actualMean, res)
 				}
+				require.Nil(t, tracker.Close())
 			})
 		}
 	})
@@ -497,6 +505,8 @@ func TestOldPropertyLengthTracker(t *testing.T) {
 		assert.Equal(t, 3, sum)
 		assert.Equal(t, 1, count)
 		assert.InEpsilon(t, 3, mean, 0.1)
+
+		require.Nil(t, tracker.Close())
 	})
 
 	t.Run("multiple properties (can all fit on one page)", func(t *testing.T) {
@@ -545,6 +555,8 @@ func TestOldPropertyLengthTracker(t *testing.T) {
 
 			assert.InEpsilon(t, actualMean, res, 0.1)
 		}
+
+		require.Nil(t, tracker.Close())
 	})
 
 	t.Run("with more properties that can fit on one page", func(t *testing.T) {
@@ -553,6 +565,8 @@ func TestOldPropertyLengthTracker(t *testing.T) {
 		require.Nil(t, err)
 
 		create20PropsAndVerify_old(t, tracker)
+
+		require.Nil(t, tracker.Close())
 	})
 }
 
@@ -602,6 +616,10 @@ func TestOldPropertyLengthTracker_Persistence(t *testing.T) {
 		require.Nil(t, err)
 		assert.InEpsilon(t, actualMeanForProp20, res, 0.1)
 	})
+
+	t.Run("shut down the second tracker", func(t *testing.T) {
+		require.Nil(t, secondTracker.Close())
+	})
 }
 
 func Test_PropertyLengthTracker_Overflow(t *testing.T) {
@@ -619,4 +637,6 @@ func Test_PropertyLengthTracker_Overflow(t *testing.T) {
 	// Check that property that would cause the internal counter to overflow is not added
 	err = tracker.TrackProperty("OVERFLOW", float32(123))
 	require.NotNil(t, err)
+
+	require.Nil(t, tracker.Close())
 }
